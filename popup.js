@@ -6,11 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
       d = document;
 
       var f = d.createElement('form');
-      f.action = 'http://0.0.0.0:5000';
-      f.method = 'get';
+      f.action = 'http://127.0.0.1:5000?potato=Anshuman';
+      f.method = 'post';
       var i = d.createElement('input');
       i.type = 'hidden';
-      i.name = tab.url;
+      // This ain't working: (in fact,GET requests not working either wtf :|)
+      i.name = 'potato';
+      i.value = 'Anshuman';
       f.appendChild(i);
       d.body.appendChild(f);
       f.submit();
