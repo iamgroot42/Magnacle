@@ -15,7 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
       i.value = 'Anshuman';
       f.appendChild(i);
       d.body.appendChild(f);
-      f.submit();
+      // f.submit();	
+      var options = {
+      body: "How's life?",
+      icon: "icon.png"
+  		};
+      var n = new Notification("Hi, " + i.name, options);
+
     });
   }, false);
 }, false);
