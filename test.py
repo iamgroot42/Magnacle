@@ -1,14 +1,17 @@
 from flask import Flask,request
+from pymongo import MongoClient
+
 app = Flask(__name__)
+password = 'potato'
 
 @app.route('/test', methods=['GET', 'POST'])
-def hello_world():
+def test():
 	user = request.form.get('potato')
 	return "Hi, " + str(user)
 
 
 @app.route('/stuff')
-def evil_store():
+def stuff():
 	for key in request.args:
 		print key," : ",request.args.get(key)
 	return "Hi, " + str(request.args.get("username"))

@@ -19,8 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
       body: "How's life?",
       icon: "icon.png"
   		};
-      var n = new Notification("Hi, " + i.name, options);
-
+      chrome.storage.sync.get([tab.url], function(items){
+         var nn = new Notification("I got this: " + items['yourBody'], options);  
+      });
     });
   }, false);
 }, false);

