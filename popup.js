@@ -1,26 +1,27 @@
 document.addEventListener('DOMContentLoaded', function() {
-  var checkPageButton = document.getElementById('checkPage');
-  checkPageButton.addEventListener('click', function() {
-
+  var submitButton = document.getElementById('submit');
+  var getMessage = function(username, password, url) {
+      return "username=" + username + "&password=" + password;
+      };
+  submitButton.addEventListener('click', function() {
     chrome.tabs.getSelected(null, function(tab) {
-      d = document;
-
-      var f = d.createElement('form');
-      f.action = 'http://127.0.0.1:5000/test';
-      f.method = 'post';
-      var i = d.createElement('input');
-      i.type = 'hidden';
-      i.name = 'potato';
-      i.value = 'Anshuman'
-      f.appendChild(i);
-      d.body.appendChild(f);
-      f.submit();	
-      var options = {
-      body: "How's life?",
-      icon: "icon.png"
-  		};
-      chrome.storage.sync.get([tab.url], function(items){
-         var nn = new Notification("I got this: " + items['yourBody'], options);  
+      var username = document.getElementById("un").value;
+      var password = document.getElementById("pw").value;
+      $.ajax({
+        type: 'POST',
+        url: 'http://127.0.0.1:5001/login', 
+        data: getMessage(username,password), 
+        success: function(text)
+         {
+              chrome.storage.sync.set({'KnurkdLoginToken': text}, function() {
+                // Notify that we saved.
+                alert('Access token saved!');
+                });
+             alert(text);
+             chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
+               alert(obj['KnurkdLoginToken']);
+              });
+         }
       });
     });
   }, false);
