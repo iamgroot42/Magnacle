@@ -75,6 +75,12 @@ def login():
     return "Logged in, nigger"
 
 
+@app.route('/logout', methods=['GET', 'POST'])
+@crossdomain(origin='*')
+def logout():
+    return "Logged out, nigger"
+
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host= '0.0.0.0', port=5001)

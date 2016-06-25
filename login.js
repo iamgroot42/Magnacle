@@ -1,6 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
+  chrome.storage.local.get('KnurkdLoginUsername', function (obj) {
+    // alert(obj['KnurkdLoginUsername']);
+    if(obj['KnurkdLoginUsername'])
+    {
+      location.href = "logged_in.html";
+    }
+  });
   var submitButton = document.getElementById('submit');
-  var getMessage = function(username, password, url) {
+  var getMessage = function(username, password) {
       return "username=" + username + "&password=" + password;
       };
   submitButton.addEventListener('click', function() {
@@ -13,13 +20,11 @@ document.addEventListener('DOMContentLoaded', function() {
         data: getMessage(username,password), 
         success: function(text)
          {
-              chrome.storage.sync.set({'KnurkdLoginToken': text}, function() {
-                // Notify that we saved.
-                alert('Access token saved!');
+              // Store access token
+              chrome.storage.local.set({'KnurkdLoginToken': text}, function() {
+                chrome.storage.local.set({'KnurkdLoginUsername': username}, function() {
+                  location.href = "logged_in.html";
                 });
-             alert(text);
-             chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
-               alert(obj['KnurkdLoginToken']);
               });
          }
       });
