@@ -83,27 +83,61 @@ $(function() {
         return;
       }
    	  // Offer to save password if logged in
-   	  var answer = confirm("Save password for this website?");
-   	  if(answer)
-   	  {
-        chrome.storage.local.get('potaato', function (obj) {
-          var theValue = {};
-          // Initialize DB if doesn't exist
-          if(!obj['potaato'])
-          {
-            chrome.storage.local.set({'potaato' : {}});
-          }
-          // Update storage
-          theValue = obj['potaato'];
-          theValue[uname] = pword;
-          chrome.storage.local.set({'potaato' : theValue}, function() {
-            // Notify user if password saved: SweetJS
-            swal({title: "Password saved!",timer: 500,showConfirmButton: false, type: "success"});
-        });
-      });
-   	}
+      var answer = false;
+      // swal({
+      //   title: "Are you sure?",
+      //   text: "You will not be able to recover this imaginary file!",
+      //   type: "warning",
+      //   showCancelButton: true,
+      //   confirmButtonColor: '#DD6B55',
+      //   confirmButtonText: 'Yes, I am sure!',
+      //   cancelButtonText: "No, cancel it!",
+      //   closeOnConfirm: false,
+      //   closeOnCancel: false
+      //   },
+      //   function(isConfirm){
+      //     if(isConfirm)
+      //     {
+      //         chrome.storage.local.get('potaato', function (obj) {
+      //         var theValue = {};
+      //         // Initialize DB if doesn't exist
+      //         if(!obj['potaato'])
+      //         {
+      //           chrome.storage.local.set({'potaato' : {}});
+      //         }
+      //         // Update storage
+      //         theValue = obj['potaato'];
+      //         theValue[uname] = pword;
+      //         chrome.storage.local.set({'potaato' : theValue}, function() {
+      //           // Notify user if password saved: SweetJS
+      //           // swal({title: "Password saved!",timer: 500,showConfirmButton: false, type: "success"});
+      //           });
+      //       });
+      //     }
+      //   }
+      // );
+      answer = confirm('Are you sure?');
+   	  // if(answer)
+   	  // {
+      //   chrome.storage.local.get('potaato', function (obj) {
+      //     var theValue = {};
+      //     // Initialize DB if doesn't exist
+      //     if(!obj['potaato'])
+      //     {
+      //       chrome.storage.local.set({'potaato' : {}});
+      //     }
+      //     // Update storage
+      //     theValue = obj['potaato'];
+      //     theValue[uname] = pword;
+      //     chrome.storage.local.set({'potaato' : theValue}, function() {
+      //       // Notify user if password saved: SweetJS
+      //       // swal({title: "Password saved!",timer: 500,showConfirmButton: false, type: "success"});
+      //   });
+      // });
+   	// }
    }
    $this.unbind('submit');
+   // swal({title: "Password saved!",timer: 1000,showConfirmButton: false, type: "success"});
    $this.submit();
   });
  });
