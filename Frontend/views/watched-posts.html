@@ -1,0 +1,191 @@
+
+
+<template id="fetchedPosts-page" type="text/x-handlebars-template">
+	<h4 style="margin-top:-10px; margin-bottom:30px" > Discover Contenttt </h4>
+
+	<div class="row">
+	
+		<div class="col-md-4"> 
+			<div class="list-group downloadSection" style="display: block;">
+
+				<div class="list-group no-border">
+					<!-- <span class="list-group-item active">Download Data</span> -->
+					<a class="list-group-item no-border" href="">Discover Posts</a>
+					<a class="list-group-item no-border" href="">Discover Pages</a>
+					 <a class="list-group-item no-border" href="">Discover Pages</a>
+				</div>
+
+				 <div class="list-group no-border">
+					<span class="list-group-item active">Categories</span>
+					<a class="list-group-item no-border" href="">Cat 1</a>
+					<a class="list-group-item no-border" href="">Cat 2 </a>
+				</div>
+					   
+			</div>
+
+		</div>
+
+		<div class="col-md-8">		
+
+				<div id="fetchedPostsArea"> </div>
+		  
+		</div>
+
+	</div>
+</template>
+
+
+<template id="fetchedpost-template" type="text/x-handlebars-template">
+	<div class="panel panel-default" id="fetchedpost-{{id}}"  >
+		<div class="panel-heading">
+			{{title}}
+		</div>
+		 <div class="panel-body">
+			<div class="text">{{text}}</div>
+			<hr>
+
+			<div class="text-right">
+
+				{{#if favorated }}
+					<button type="button" onclick="unfavFetchedPost('{{id}}')" class="btn btn-infod btn-sm btn-fill pull-right unfavorate">Unfavorite</button>
+					<button style="display:none" type="button" onclick="favFetchedPost('{{id}}')" class="btn btn-info btn-sm btn-fill pull-right favorate">Favorite</button>
+				{{else}}
+					<button style="display:none" type="button" onclick="unfavFetchedPost('{{id}}')" class="btn btn-infod btn-sm btn-fill pull-right unfavorate">Unfavorite</button>
+					<button type="button" onclick="favFetchedPost('{{id}}')" class="btn btn-info btn-sm btn-fill pull-right favorate">Favorite</button>
+				{{/if}}
+
+
+				<button  style="margin-right:10px" onclick="addFavPostToQueue('{{id}}')" type="button" class="btn btn-info btn-sm btn-fill pull-right">Add to Queue</button>
+
+
+
+			</div>
+			 Likes {{nLikes}} |  Shares {{nShares}}
+			 <div class="loader"> Loading .. </div>
+		</div>
+	
+	</div>
+</template>
+
+
+
+
+<div id="addQueuedPostModel" data-curid="-1" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+		  <div class="modal-header">
+			 <button type="button" class="close" data-dismiss="modal">&times;</button>
+			 <h4 class="modal-title">Add post to queue</h4>
+		  </div>
+		  <div class="modal-body">
+				
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<form>
+								<label> Add content here</label>
+								<textarea id="textareaNewQueuePostFromModal" rows="3" class="form-control"  data-validation="required" placeholder="Here can be your post"   data-validation="required"  data-validation-length="min4"  > </textarea>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div style="display:none" class="loader" > Loading </div>
+				<div class="clearfix"></div>
+
+		  </div>
+		  <div class="modal-footer">
+			   <button type="button" class="btn btn-fill btn-info" onclick="addModalPostQueue()">Add</button>
+			   <button type="button" class="btn btn-fill  btn-error" data-dismiss="modal" >Cancel</button>
+		  </div>
+		</div>
+
+	  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+	
+
+var fetchedPostsPageTemplate = Handlebars.compile($("#fetchedPosts-page").html());
+var fetchedPostsTemplate =  Handlebars.compile($("#fetchedpost-template").html()); 
+
+
+
+function showFetchedPostsPage()
+{
+	$(".nav > li").removeClass("active");
+	$("#discoverContentButton").parent().addClass("active");
+	// setUrlSmart("discover" , "Discover Content");
+
+
+	$("#mainContentArea").html(fetchedPostsPageTemplate() );
+	 $(window).scrollTop(0);
+
+	 API.FetchedPosts.getAll( accessToken ,  20  , null , null , function(e,r ){
+	 	for (var i =0 ; i < r.length; i++) {
+	 		$("#fetchedPostsArea").append(fetchedPostsTemplate( r[i] ));
+	 	}
+	 });
+
+	return false;
+}
+
+
+function favFetchedPost(id)
+{
+	API.LikedPosts.doLike(accessToken , id , function(e ,r){
+		$("#fetchedpost-" + id ).find('.favorate').hide();
+		$("#fetchedpost-" + id ).find('.unfavorate').show();
+	});
+	
+}
+
+function unfavFetchedPost(id)
+{
+	API.LikedPosts.doUnlike(accessToken , id , function(e ,r){
+		$("#fetchedpost-" + id ).find('.unfavorate').hide();
+		$("#fetchedpost-" + id ).find('.favorate').show();
+	});
+}
+
+function addFavPostToQueue(id)
+{
+
+	var text = $("#fetchedpost-" + id ).find('.text').text();
+	$("#addQueuedPostModel").modal();
+	$("#textareaNewQueuePostFromModal").val( text );
+}
+
+
+
+
+
+</script>
