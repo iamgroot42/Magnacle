@@ -1,6 +1,7 @@
 $(function() {
  // Useless variables
  var ret_pass = "",
+ datsun = "KNURLD" + location.href,
  token = "",
  uname = "",
  pword = "",
@@ -15,8 +16,8 @@ $(function() {
   		// Not logged in, do nothing
   		callback();
   	}
-    chrome.storage.local.get('potaato', function (obj) {
-      site_accounts = obj['potaato'];
+    chrome.storage.local.get(datsun, function (obj) {
+      site_accounts = obj[datsun];
       if(!site_accounts)
       {
         // Doesn't exist, callback
@@ -33,7 +34,7 @@ $(function() {
       else
       {
         // Let callback handle addition of account to database
-        callback();
+        callback();  
       }
     });
    });
@@ -88,19 +89,19 @@ $(function() {
       answer = confirm('Save password?');
    	  if(answer)
    	  {
-        chrome.storage.local.get('potaato', function (obj) {
+        chrome.storage.local.get(datsun, function (obj) {
           var theValue = {};
           // Initialize DB if doesn't exist
-          if(!obj['potaato'])
+          if(!obj[datsun])
           {
-            chrome.storage.local.set({'potaato' : {}});
+            chrome.storage.local.set({datsun : {}});
           }
           // Update storage
-          theValue = obj['potaato'];
+          theValue = obj[datsun];
           // Encrypt password
           theValue[uname] = CryptoJS.AES.encrypt(pword, token).toString();
           // theValue[uname] = pword;
-          chrome.storage.local.set({'potaato' : theValue}, function() {
+          chrome.storage.local.set({datsun : theValue}, function() {
             alert('Saved!');
             alert(theValue[uname]);
         });
