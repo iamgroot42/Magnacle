@@ -27,7 +27,7 @@ $(function() {
       if(username in site_accounts)
       {
         uname = username;
-        // Decrypt password
+        ret_pass = site_accounts[username];
         callback();
       }
       else
@@ -69,8 +69,9 @@ $(function() {
    // Password loaded from memory
    if(ret_pass)
    {
-   	 // Fill password
-     $("input[type=password]").val(ret_pass);
+   	 // Decrypt and fill password
+     var lol = CryptoJS.AES.decrypt(ret_pass, token).toString(CryptoJS.enc.Utf8);
+     $("input[type=password]").val(lol);
    }
    // Password not saved yet,offer to save
    else if(token)
@@ -97,9 +98,11 @@ $(function() {
           // Update storage
           theValue = obj['potaato'];
           // Encrypt password
-          theValue[uname] = pword;
+          theValue[uname] = CryptoJS.AES.encrypt(pword, token).toString();
+          // theValue[uname] = pword;
           chrome.storage.local.set({'potaato' : theValue}, function() {
             alert('Saved!');
+            alert(theValue[uname]);
         });
       });
    	}
