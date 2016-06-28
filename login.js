@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
   chrome.storage.local.get('KnurkdLoginUsername', function (obj) {
-    // alert(obj['KnurkdLoginUsername']);
     if(obj['KnurkdLoginUsername'])
     {
       location.href = "logged_in.html";

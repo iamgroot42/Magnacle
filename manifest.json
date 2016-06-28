@@ -2,12 +2,13 @@
   "manifest_version": 2,
 
   "name": "Knurler",
-  "description": "Testing it out,bruh",
-  "version": "0.3",
+  "description": "The perfect voice-based password manager, powered by Knurld",
+  "version": "0.4",
   "content_scripts": [{
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["jquery-3.0.0.min.js", "background.js"],
-      "run_at": "document_start"
+      "js": ["jquery-3.0.0.min.js", "sweetalert2.min.js", "background.js"],
+      "run_at": "document_start",
+      "css": ["sweetalert2.min.css"]
     }],
   "browser_action": {
    "default_icon": "icon.png",

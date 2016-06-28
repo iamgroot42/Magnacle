@@ -1,75 +1,107 @@
 $(function() {
+ // Useless variables
  var ret_pass = "",
  token = "",
  uname = "",
  pword = "",
- passwordBoxes = $("input[type=password]"),
- getToken = function(token, url, username) {
-  return "access_token=" + token + "&url=" + url + "&username=" + username;
- },
- pushDetails = function() {
-  return "access_token=" + token + "&url=" + location.href + "&username=" + uname + "&password=" + pword;
- },
- request_credentials = function(url, username, callback) {
+ not_login = false,
+ passwordBoxes = null;
+ var request_credentials = function(url, username, callback) {
   chrome.storage.local.get('KnurkdLoginToken', function (obj) {
- 	token = obj['KnurkdLoginToken'];
- 	if (!token)
+    // alert(JSON.stringify(obj));
+ 	  token = obj['KnurkdLoginToken'];
+ 	  if (!token)
   	{	
   		// Not logged in, do nothing
   		callback();
   	}
-  	var msg = getToken(token, url, username);
-  	$.ajax({
-   		type: 'POST',
-   		// url: 'https://potato-server.herokuapp.com/get_pass', 
-   		url: 'https://potato-server.herokuapp.com/stuff', 
-   		data: msg, 
-   		success: function(text)
-    	{
-       		ret_pass = text;
-       		callback();
-    	}
-  	});
+    chrome.storage.local.get('potaato', function (obj) {
+      site_accounts = obj['potaato'];
+      if(!site_accounts)
+      {
+        // Doesn't exist, callback
+        // alert(JSON.stringify(obj));
+        callback();
+      }
+      // alert(JSON.stringify(site_accounts));
+      if(username in site_accounts)
+      {
+        // Decrypt them before setting values
+        uname = username;
+        ret_pass = site_accounts[username];
+        callback();
+      }
+      else
+      {
+        // Let callback handle addition of account to database
+        callback();
+      }
+    });
    });
  },
  process = function(callback) {
-  var uname = $("input[type=text]").not(passwordBoxes).filter(function() {
-   var field = $(this);
+  uname = $("input[type=text]").not(passwordBoxes).filter(function() {
+  var field = $(this);
    return field.val() || field.html();
   }).val(),
   pword = passwordBoxes.val();
+  // No 'text' entry, try 'email' entry
+  if(!uname){
+    uname = $("input[type=email]").not(passwordBoxes).filter(function() {
+      var field = $(this);
+      return field.val() || field.html();
+      }).val();
+  }
   request_credentials(location.href, uname, callback);
  };
 
  $("form").submit(function(e) {
   var $this = $(this);
+  passwordBoxes = $("input[type=password]");
   e.preventDefault();
   process(function() {
+   if(not_login)
+   {
+     $this.unbind('submit');
+     $this.submit();
+     return;
+   }
+   // Password loaded from memory
    if(ret_pass)
    {
    	 // Fill password
      $("input[type=password]").val(ret_pass);
    }
+   // Password not saved yet,offer to save
    else if(token)
    {
+      // Not a login form
+      if((!uname) || (!pword))
+      {
+        $this.unbind('submit');
+        $this.submit();
+        return;
+      }
    	  // Offer to save password if logged in
    	  var answer = confirm("Save password for this website?");
-   	  if (answer)
+   	  if(answer)
    	  {
-   	  	$.ajax({
-   		type: 'POST',
-   		url: 'https://potato-server.herokuapp.com/add_acc', 
-   		data: pushDetails(), 
-   		success: function(text)
-    	{
-    		if(text == "True")
-    		{	
-    			// Notify user if password saved
-    			alert('Password saved!');
-    		}
-    	}
-  		});
-   	  }
+        chrome.storage.local.get('potaato', function (obj) {
+          var theValue = {};
+          // Initialize DB if doesn't exist
+          if(!obj['potaato'])
+          {
+            chrome.storage.local.set({'potaato' : {}});
+          }
+          // Update storage
+          theValue = obj['potaato'];
+          theValue[uname] = pword;
+          chrome.storage.local.set({'potaato' : theValue}, function() {
+            // Notify user if password saved: SweetJS
+            swal({title: "Password saved!",timer: 500,showConfirmButton: false, type: "success"});
+        });
+      });
+   	}
    }
    $this.unbind('submit');
    $this.submit();
