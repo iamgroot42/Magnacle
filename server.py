@@ -72,7 +72,7 @@ def stuff():
 def login():
     for key in request.args:
         print key," : ",request.args.get(key)
-    return "Logged in, nigger"
+    return "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
 
 @app.route('/logout', methods=['GET', 'POST'])
