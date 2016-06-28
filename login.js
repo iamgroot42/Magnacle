@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
               chrome.storage.local.set({'KnurkdLoginToken': text}, function() {
                 chrome.storage.local.set({'KnurkdLoginUsername': username}, function() {
                   location.href = "logged_in.html";
-                  alert('Token saved!');
                 });
               });
          }

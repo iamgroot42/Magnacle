@@ -1,5 +1,5 @@
 $(function() {
-  // Useless variables
+ // Useless variables
  var ret_pass = "",
  token = "",
  uname = "",
@@ -97,8 +97,8 @@ $(function() {
           theValue = obj['potaato'];
           theValue[uname] = pword;
           chrome.storage.local.set({'potaato' : theValue}, function() {
-            // Notify user if password saved
-            alert('Password saved!');
+            // Notify user if password saved: SweetJS
+            swal({title: "Password saved!",timer: 500,showConfirmButton: false, type: "success"});
         });
       });
    	}
