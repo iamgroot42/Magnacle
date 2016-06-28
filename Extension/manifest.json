@@ -3,7 +3,7 @@
 
   "name": "Knurler",
   "description": "The perfect voice-based password manager, powered by Knurld",
-  "version": "0.4",
+  "version": "0.5",
   "content_scripts": [{
       "matches": ["http://*/*", "https://*/*"],
       "js": ["jquery-3.0.0.min.js", "aes.js", "sweetalert2.min.js", "background.js"],

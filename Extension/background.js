@@ -1,40 +1,41 @@
 $(function() {
  // Useless variables
  var ret_pass = "",
- datsun = "KNURLD" + location.href,
+ datsun = "KNURLD" + String(location.href),
  token = "",
  uname = "",
  pword = "",
  not_login = false,
  passwordBoxes = null;
- var request_credentials = function(url, username, callback) {
+ // alert(datsun);
+ var request_credentials = function( username, callback) {
   chrome.storage.local.get('KnurkdLoginToken', function (obj) {
-    // alert(JSON.stringify(obj));
  	  token = obj['KnurkdLoginToken'];
  	  if (!token)
-  	{	
+  	  {	
   		// Not logged in, do nothing
   		callback();
-  	}
-    chrome.storage.local.get(datsun, function (obj) {
-      site_accounts = obj[datsun];
+  	  }
+    chrome.storage.local.get("KNURLDhttps://www.codechef.com/", function (obj) {
+      site_accounts = obj["KNURLDhttps://www.codechef.com/"];
       if(!site_accounts)
       {
         // Doesn't exist, callback
-        // alert(JSON.stringify(obj));
-        callback();
-      }
-      // alert(JSON.stringify(site_accounts));
-      if(username in site_accounts)
-      {
-        uname = username;
-        ret_pass = site_accounts[username];
         callback();
       }
       else
       {
-        // Let callback handle addition of account to database
-        callback();  
+      	if(username in site_accounts)
+      	{
+	        uname = username;
+        	ret_pass = site_accounts[username];
+	        callback();
+    	}
+      	else
+      	{
+        	// Let callback handle addition of account to database
+        	callback();  
+     	}
       }
     });
    });
@@ -52,7 +53,7 @@ $(function() {
       return field.val() || field.html();
       }).val();
   }
-  request_credentials(location.href, uname, callback);
+  request_credentials(uname, callback);
  };
 
  $("form").submit(function(e) {
@@ -89,24 +90,24 @@ $(function() {
       answer = confirm('Save password?');
    	  if(answer)
    	  {
-        chrome.storage.local.get(datsun, function (obj) {
-          var theValue = {};
-          // Initialize DB if doesn't exist
-          if(!obj[datsun])
-          {
-            chrome.storage.local.set({datsun : {}});
-          }
-          // Update storage
-          theValue = obj[datsun];
-          // Encrypt password
-          theValue[uname] = CryptoJS.AES.encrypt(pword, token).toString();
-          // theValue[uname] = pword;
-          chrome.storage.local.set({datsun : theValue}, function() {
-            alert('Saved!');
-            alert(theValue[uname]);
-        });
-      });
-   	}
+   	  	var dummy = {"potato":"angel"};
+   	  	chrome.storage.local.set({"KNURLDhttps://www.codechef.com/" : dummy}, function(){
+        	chrome.storage.local.get("KNURLDhttps://www.codechef.com/", function (obj) {
+          	var theValue = {};
+          	if(obj["KNURLDhttps://www.codechef.com/"])
+          	{
+	          	// Update storage
+	          	// alert(JSON.stringify(obj["KNURLDhttps://www.codechef.com/"]));
+          		theValue = obj["KNURLDhttps://www.codechef.com/"];
+          	}
+          	// Encrypt password
+          	theValue[uname] = CryptoJS.AES.encrypt(pword, token).toString();
+          	chrome.storage.local.set({"KNURLDhttps://www.codechef.com/" : theValue}, function() {
+	            alert('Saved!');
+        	});
+	      });
+     	});
+   	  }
    }
    $this.unbind('submit');
    $this.submit();
