@@ -30,13 +30,14 @@ document.addEventListener('DOMContentLoaded', function() {
               // Store access key
               chrome.storage.sync.set({'KnurkdLoginToken': text}, function() {
                 chrome.storage.sync.set({'KnurkdLoginUsername': username}, function() {
-                  location.href = "logged_in.html";
+                  // Redirect to voice auth
+                  location.href = "authenticate.html";
                 });
               });
             }
             else
             {
-                // Invalid user+voice combination
+                // Invalid login
                 alert('Not authenticated!');
                 return;
             }

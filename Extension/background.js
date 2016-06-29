@@ -8,8 +8,8 @@ $(function() {
  not_login = false,
  passwordBoxes = null;
  var request_credentials = function( username, callback) {
-  chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
- 	  token = obj['KnurkdLoginToken'];
+  chrome.storage.sync.get('KnurkdLoginKey', function (obj) {
+ 	  token = obj['KnurkdLoginKey'];
  	  if (!token)
   	  {	
   		// Not logged in, do nothing

@@ -62,15 +62,15 @@ def test():
 @app.route('/stuff', methods=['GET', 'POST'])
 @crossdomain(origin='*')
 def stuff():
-	for key in request.args:
-		print key," : ",request.args.get(key)
-	return "Potato"
+	# for key in request.args:
+		# print key," : ",request.args.get(key)
+	return "Potato0"
 
 
 @app.route('/login', methods=['GET', 'POST'])
 @crossdomain(origin='*')
 def login():
-    key = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    key = "abcdefghijaklmnpqrstuvwxyzaaaaaa"
     return key
 
 
@@ -78,6 +78,18 @@ def login():
 @crossdomain(origin='*')
 def logout():
     return "Logged out, nigger"
+
+
+@app.route('/upload', methods=['GET', 'POST'])
+@crossdomain(origin='*')
+def upload():
+    return "link to file0"
+
+
+@app.route('/authenticate', methods=['GET', 'POST'])
+@crossdomain(origin='*')
+def authenticate():
+    return "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
 
 if __name__ == '__main__':

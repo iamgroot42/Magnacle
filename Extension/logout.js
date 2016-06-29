@@ -4,17 +4,18 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("uname").innerHTML = obj['KnurkdLoginUsername'];
   });
   var logoutButton = document.getElementById('logout');
-  var getMessage = function(token) {
-      return "token=" + token;
-      };
   logoutButton.addEventListener('click', function() {
     chrome.tabs.getSelected(null, function(tab) {
         chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
           var token = obj['KnurkdLoginToken']; 
+          // Explicit logout; delete everything
           chrome.storage.sync.remove('KnurkdLoginToken',function() {
-            chrome.storage.sync.remove('KnurkdLoginUsername',function() {
-              // Redirect to login page
-              location.href = "login.html";
+            chrome.storage.sync.remove('KnurkdLoginKey',function() {
+              chrome.storage.sync.remove('KnurkdLoginUsername',function() {
+                // Redirect to login page
+                alert("Logged out!");
+                location.href = "login.html";
+              });
             });
           });
         });
