@@ -1,0 +1,28 @@
+
+<!doctype html>
+<html>
+<head>
+	<title>Audio Recorder</title>
+	<script src="js/recorderjs/recorder.js"></script>
+	<script src="js/main.js"></script>
+	<style>
+	
+	/*#record { height: 15vh; }*/
+	#record.recording { 
+		background: red;
+		background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%,white 75%,white 100%,#7db9e8 100%); 
+		background: -moz-radial-gradient(center, ellipse cover, #ff0000 0%,white 75%,white 100%,#7db9e8 100%); 
+		background: radial-gradient(center, ellipse cover, #ff0000 0%,white 75%,white 100%,#7db9e8 100%); 
+	}
+	/*#save, #save img { height: 10vh; }*/
+	#save { opacity: 0.25;}
+	#save[download] { opacity: 1;}
+
+	</style>
+</head>
+<body>
+		<img id="record" src="img/mic128.png" onclick="toggleRecording(this);">	
+	<form id="wavUp" method="post" action="https://localhost:5001/upload" enctype="multipart/form-data" hidden>
+	</form> 
+</body>
+</html>
