@@ -8,14 +8,14 @@ $(function() {
  not_login = false,
  passwordBoxes = null;
  var request_credentials = function( username, callback) {
-  chrome.storage.local.get('KnurkdLoginToken', function (obj) {
+  chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
  	  token = obj['KnurkdLoginToken'];
  	  if (!token)
   	  {	
   		// Not logged in, do nothing
   		callback();
   	  }
-    chrome.storage.local.get(datsun.toString(), function (obj) {
+    chrome.storage.sync.get(datsun.toString(), function (obj) {
       site_accounts = obj[datsun.toString()];
       if(!site_accounts)
       {
@@ -91,8 +91,8 @@ $(function() {
    	  {
    	  	var dummy = {};
    	  	dummy[datsun.toString()] = {"potato":"angel"};
-   	  	chrome.storage.local.set(dummy, function(){
-        	chrome.storage.local.get(datsun.toString(), function (obj) {
+   	  	chrome.storage.sync.set(dummy, function(){
+        	chrome.storage.sync.get(datsun.toString(), function (obj) {
           	var theValue = {};
           	if(obj[datsun.toString()])
           	{
@@ -103,7 +103,7 @@ $(function() {
           	theValue[uname] = CryptoJS.AES.encrypt(pword, token).toString();
           	var theman = {};
           	theman[datsun.toString()] = theValue;
-          	chrome.storage.local.set(theman, function() {
+          	chrome.storage.sync.set(theman, function() {
 	            alert('Saved!');
         	});
 	      });

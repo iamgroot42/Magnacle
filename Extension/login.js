@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  chrome.storage.local.get('KnurkdLoginUsername', function (obj) {
+  chrome.storage.sync.get('KnurkdLoginUsername', function (obj) {
     if(obj['KnurkdLoginUsername'])
     {
       location.href = "logged_in.html";
@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
         data: getMessage(username,password), 
         success: function(text)
          {
-              // Store access token
-              chrome.storage.local.set({'KnurkdLoginToken': text}, function() {
-                chrome.storage.local.set({'KnurkdLoginUsername': username}, function() {
+              // Store access key
+              chrome.storage.sync.set({'KnurkdLoginToken': text}, function() {
+                chrome.storage.sync.set({'KnurkdLoginUsername': username}, function() {
                   location.href = "logged_in.html";
                 });
               });

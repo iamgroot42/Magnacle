@@ -70,9 +70,8 @@ def stuff():
 @app.route('/login', methods=['GET', 'POST'])
 @crossdomain(origin='*')
 def login():
-    for key in request.args:
-        print key," : ",request.args.get(key)
-    return "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    key = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    return key
 
 
 @app.route('/logout', methods=['GET', 'POST'])
