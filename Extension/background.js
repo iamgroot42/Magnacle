@@ -1,7 +1,7 @@
 $(function() {
  // Useless variables
  var ret_pass = "",
- datsun = "KNURLD" + String(location.href),
+ datsun = "%KNURLD%" + String(location.href),
  token = "",
  uname = "",
  pword = "",
@@ -29,7 +29,7 @@ $(function() {
 	        uname = username;
         	ret_pass = site_accounts[username];
 	        callback();
-    	}
+    	   }
       	else
       	{
         	// Let callback handle addition of account to database
@@ -57,61 +57,80 @@ $(function() {
 
  $("form").submit(function(e) {
   var $this = $(this);
-  passwordBoxes = $("input[type=password]");
   e.preventDefault();
-  process(function() {
-    // Not a user-account login, nvm
-   if(not_login)
-   {
-     $this.unbind('submit');
-     $this.submit();
-     return;
-   }
-   // Password loaded from memory
-   if(ret_pass)
-   {
-   	 // Decrypt and fill password
-     var lol = CryptoJS.AES.decrypt(ret_pass, token).toString(CryptoJS.enc.Utf8);
-     $("input[type=password]").val(lol);
-   }
-   // Password not saved yet,offer to save
-   else if(token)
-   {
-      // Not a login form
-      if((!uname) || (!pword))
+  $this.unbind('submit');
+  passwordBoxes = $("input[type=password]");
+  chrome.storage.sync.get('KnurkdLoginUsername', function (obj) {
+      datsun = obj['KnurkdLoginUsername'] + datsun;
+      process(function() {
+      // Not a user-account login, nvm
+      if(not_login)
       {
-        $this.unbind('submit');
+        // $this.unbind('submit');
         $this.submit();
         return;
       }
-   	  // Offer to save password if logged in
-      var answer = false;
-      answer = confirm('Save password?');
-   	  if(answer)
-   	  {
-   	  	var dummy = {};
-   	  	dummy[datsun.toString()] = {"potato":"angel"};
-   	  	chrome.storage.sync.set(dummy, function(){
-        	chrome.storage.sync.get(datsun.toString(), function (obj) {
-          	var theValue = {};
-          	if(obj[datsun.toString()])
-          	{
-	          	// Update storage
-          		theValue = obj[datsun.toString()];
-          	}
-          	// Encrypt password
-          	theValue[uname] = CryptoJS.AES.encrypt(pword, token).toString();
-          	var theman = {};
-          	theman[datsun.toString()] = theValue;
-          	chrome.storage.sync.set(theman, function() {
-	            alert('Saved!');
-        	});
-	      });
-     	});
-   	  }
-   }
-   $this.unbind('submit');
-   $this.submit();
+      // Password loaded from memory
+      else if(ret_pass)
+      {
+   	    // Decrypt and fill password
+        var lol = CryptoJS.AES.decrypt(ret_pass, token).toString(CryptoJS.enc.Utf8);
+        $("input[type=password]").val(lol);
+        alert("Auto-filled!");
+        $this.submit();
+        return;
+      }
+      // Password not saved yet,offer to save
+      else if(token)
+      {
+          // Not a login form
+          if((!uname) || (!pword))
+          {
+            // $this.unbind('submit');
+            $this.submit();
+            return;
+          }
+   	      // Offer to save password if logged in
+          var answer = false;
+          answer = confirm('Save password?');
+   	      if(answer)
+   	      {
+   	  	     var dummy = {};
+   	  	     dummy[datsun.toString()] = {"potato":"angel"};
+   	  	     chrome.storage.sync.set(dummy, function(){
+        	     chrome.storage.sync.get(datsun.toString(), function (obj) {
+          	   var theValue = {};
+          	   if(obj[datsun.toString()])
+          	   {
+	          	    // Update storage
+          		    theValue = obj[datsun.toString()];
+          	   }
+          	   // Encrypt password
+          	   theValue[uname] = CryptoJS.AES.encrypt(pword, token).toString();
+          	   var theman = {};
+          	   theman[datsun.toString()] = theValue;
+          	   chrome.storage.sync.set(theman, function() {
+	               alert('Saved!');
+                 $this.submit();
+                return;
+        	     });
+	           });
+     	      });
+   	      }
+          else
+          {
+            $this.submit();
+            return;
+          }
+        }
+        else
+        {
+          $this.submit();
+          return;
+        }
+        // $this.unbind('submit');
+        // $this.submit();
+      });
+    });
   });
- });
 });
