@@ -21,12 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
           return;
       }
       $.ajax({
-        type: 'POST',
-        url: 'http://127.0.0.1:5001/login', 
-        data: getMessage(username,password), 
+        type: 'GET',
+        url: 'http://127.0.0.1:3000/getAT?' + getMessage(username,password),
         success: function(text)
          {
-            if(text)
+            if(text['at'])
             {
               // till Divam fixes this:
               text = "ecd1003f382e5a3f544d2f1dcfef12e7";
@@ -43,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         chrome.storage.sync.set({'KnurkdLoginToken': text}, function() {
                           chrome.storage.sync.set({'KnurkdLoginUsername': username}, function() {
                             // Redirect to voice auth
+                            submitButton.classList.remove("signing_in");
                             location.href = "authenticate.html";
                           });
                         });
@@ -55,9 +55,11 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 // Invalid login
                 alert('Not authenticated!');
+                submitButton.classList.remove("signing_in");
                 return;
             }
-         }
+         },
+         error: function(data) {alert("Invalid credentials! Try again");location.href = 'login.html'}
       });
     });
   }, false);
