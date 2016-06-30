@@ -31,6 +31,24 @@ document.addEventListener('DOMContentLoaded', function() {
               chrome.storage.sync.set({'KnurkdLoginToken': text}, function() {
                 chrome.storage.sync.set({'KnurkdLoginUsername': username}, function() {
                   // Redirect to voice auth
+                  // Get order of words to be spoken
+                  var k = {};
+                  k['at'] = text;
+                  // Get instructions from nodeJS server
+                  $.ajax({
+                    type: 'GET',
+                    url: "http://127.0.0.1:5001/getVerifyInstructions",
+                    data: JSON.stringify(k),
+                    success: function(data)
+                    {
+                      data = JSON.parse(data);
+                      chrome.storage.sync.set({'KnurkdVerificationSecret':data["verificationSecret"]},function()
+                      { 
+                          alert(JSON.stringify(data["words"]));
+                      });
+                    }
+                    // failure: //Network error
+                  });
                   location.href = "authenticate.html";
                 });
               });
