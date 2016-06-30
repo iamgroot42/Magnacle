@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
       k["password"] = $("#pw").val();
       k["audioUrl"] = link;
       $.ajax({
-      type: 'POST',
+      type: 'GET',
       url: "http://localhost:3000/register",
     data: JSON.stringify(k),
     success: function(data) {

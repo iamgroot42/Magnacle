@@ -27,33 +27,27 @@ document.addEventListener('DOMContentLoaded', function() {
          {
             if(text)
             {
-              // Store access key
-              chrome.storage.sync.set({'KnurkdLoginToken': text}, function() {
-                chrome.storage.sync.set({'KnurkdLoginUsername': username}, function() {
-                  // Get order of words to be spoken
-                  var k = {};
-                  k['at'] = text;
-                  // Get instructions from nodeJS server
-                  $.ajax({
-                    type: 'GET',
-                    url: "http://127.0.0.1:5001/getVerifyInstructions",
-                    data: JSON.stringify(k),
-                    success: function(data)
-                    {
-                      data = JSON.parse(data);
-                      chrome.storage.sync.set({'KnurkdVerificationSecret':data["verificationSecret"]},function()
+              // till Divam fixes this:
+              text = "ecd1003f382e5a3f544d2f1dcfef12e7";
+              $.ajax({
+                type: 'GET',
+                url: "http://127.0.0.1:3000/getVerifyInstructions?at="+text.toString(),
+                success: function(data)
+                {
+                  chrome.storage.sync.set({'KnurkdVerificationSecret':data["verificationSecret"]},function()
+                  {
+                      chrome.storage.sync.set({'KnurkdVerificationWords':data["words"]},function()
                       {
-                          chrome.storage.sync.set({'KnurkdVerificationWords':data["words"]},function()
-                          { 
-                            alert(JSON.stringify(data["words"]));
+                        // Store access token
+                        chrome.storage.sync.set({'KnurkdLoginToken': text}, function() {
+                          chrome.storage.sync.set({'KnurkdLoginUsername': username}, function() {
                             // Redirect to voice auth
                             location.href = "authenticate.html";
                           });
+                        });
                       });
-                    }
-                    // failure: //Network error
                   });
-                });
+                }
               });
             }
             else
