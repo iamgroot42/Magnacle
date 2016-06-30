@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
       k["password"] = $("#pw").val();
       k["audioUrl"] = link;
       $.ajax({
-      type: 'POST',
+      type: 'GET',
       url: "http://localhost:3000/register",
-    data: JSON.stringify(k),
+    data: k,
     success: function(data) {
       data = JSON.parse(data);
       if(data["at"]) chrome.storage.sync.set({'KnurkdLoginToken':data["at"],'KnurkdLoginUsername':k["username"]},function()
