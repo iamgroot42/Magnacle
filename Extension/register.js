@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
       k["audioUrl"] = link;
       $.ajax({
         type: 'GET',
-        url: "https://voice4-byld.rhcloud.com/register",
+        url: "https://voice5-byld.rhcloud.com/register",
         data: k,
         success: function(data) {
           if(data["at"]) 
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
   });
    // Set iFrame source for voice recording
-    var source = "https://voice4-byld.rhcloud.com/";
+    var source = "https://voice5-byld.rhcloud.com/";
     var iframeButton = document.getElementById('eyeframe').src = source;
 
 }, false);

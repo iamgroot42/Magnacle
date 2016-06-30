@@ -4,8 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var usr = items["KnurkdLoginUsername"];
     for (i=0;i<allKeys.length;i++)
     {
-    	if(allKeys[i].startsWith(usr+"%KNURLD%"))
-    		$("#url").append("<tr><td class=\"tcell\" id=\""+allKeys[i]+"\">"+allKeys[i].substr((usr+"%KNURLD%").length-1)+"</td></tr>");
+    	if(allKeys[i].startsWith(usr+"%KNURLD%")) $("#url").append("<tr><td class=\"tcell\" id=\""+allKeys[i]+"\">"+allKeys[i].substr(usr+"%KNURLD%".length()-1)+"</td></tr>");
     }
     });
 

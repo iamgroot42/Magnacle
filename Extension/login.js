@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       $.ajax({
         type: 'GET',
-        url: 'https://voice4-byld.rhcloud.com/getAT?' + getMessage(username,password),
+        url: 'https://voice5-byld.rhcloud.com/getAT?' + getMessage(username,password),
         success: function(tezt)
          {
             if(tezt['at'])
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
               text = tezt['at'];
               $.ajax({
                 type: 'GET',
-                url: "https://voice4-byld.rhcloud.com/getVerifyInstructions?at="+text.toString(),
+                url: "https://voice5-byld.rhcloud.com/getVerifyInstructions?at="+text.toString(),
                 success: function(data)
                 {
                   chrome.storage.sync.set({'KnurkdVerificationSecret':data["verificationSecret"]},function()

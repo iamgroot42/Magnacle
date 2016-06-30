@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
             	   $.ajax(
             	   {
                   	type: 'GET',
-                    url: "https://voice4-byld.rhcloud.com/verify?at="+token+"&audioUrl="+link+"&verificationSecret="+ver_sec,
+                    url: "https://voice5-byld.rhcloud.com/verify?at="+token+"&audioUrl="+link+"&verificationSecret="+ver_sec,
              	    	success: function(data)
              	    	{
                     		// data["key"] == "" implies auth failed; request to try again
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Define source of iframe dynamically
       chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
         var token = obj['KnurkdLoginToken'];
-        var source = "https://voice4-byld.rhcloud.com/";
+        var source = "https://voice5-byld.rhcloud.com/";
         var iframeButton = document.getElementById('eyeframe');
         iframeButton.src = source;
       });
