@@ -1,5 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Set username in html
+
+  var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+  var eventer = window[eventMethod];
+  var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+
+  // Listen to message from child window
+  eventer(messageEvent,function(e) {
+      var key = e.message ? "message" : "data";
+      var data = e[key];
+      var k = {};
+      chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
+        token = obj['KnurkdLoginToken'];
+        k["token"] = token; 
+        k["dropbox"] = data;
+        $.ajax(
+        {
+          type: 'POST',
+          url: "http://127.0.0.1:5001/authenticate"
+         data: JSON.stringify(k);
+         success: //add code to handle auth. If the voice is valid, save the key in chrome.
+                  //if auth not valid, then don't save the key and save how this page only until logout.
+         failure: //Network error
+        })
+      });
+  },false);
+
   chrome.storage.sync.get('KnurkdLoginUsername', function (obj) {
     document.getElementById("uname").innerHTML = obj['KnurkdLoginUsername'];
   });
@@ -21,57 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
               alert('Logged out!');
               location.href = "login.html";
             });
-          });
-        });
-    });
-  }, false);
-  authButton.addEventListener('click', function() {
-    chrome.tabs.getSelected(null, function(tab) {
-        chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
-          var token = obj['KnurkdLoginToken'];
-          // Get audio recording
-          $.ajax({
-            type: 'POST',
-            // url: 'https://voicetools-api.knurld-demo.com/rest/file/upload', 
-            url: 'http://127.0.0.1:5001/upload', 
-            // Replace with audio file
-            data: "potato", 
-            success: function(text)
-            {
-                link = text.slice(0,-1) + "1";
-                // Send this link to nodeJS server
-                var jayson = {};
-                jayson['dropbox'] = link.toString();
-                jayson['token'] = token;
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://127.0.0.1:5001/authenticate',
-                    data: JSON.stringify(jayson), 
-                    success: function(text)
-                    {
-                        // Got the key
-                        if(text)
-                        {
-                            // Store access key
-                            chrome.storage.sync.set({'KnurkdLoginKey': text}, function() {
-                                alert('Authenticated!');
-                                location.href = "logged_in.html";
-                            });
-                        }
-                        else
-                        {
-                            // Delete user access token,username
-                          chrome.storage.sync.remove('KnurkdLoginToken',function() {
-                            chrome.storage.sync.remove('KnurkdLoginUsername',function() {
-                              alert('Token expired. Please login again!');
-                              // Redirect to login page
-                              location.href = "login.html";
-                              });
-                          });
-                        }
-                    }
-                }); 
-            }
           });
         });
     });

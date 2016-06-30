@@ -49,10 +49,10 @@ function doneEncoding( blob ) {
                 } catch (e) {
                     response = request.responseText;
                 }
-                response = response.slice(0,-1) + "1"; 
-                // Dropbox link stored in this ^
+                response = response.slice(0,-1) + "1";
+               	window.parent.postMessage(response,"*");
+                //else console.log('Error in Parent');
                 console.log(response);
-                alert(response);
             }
         }
     }
@@ -62,10 +62,8 @@ function doneEncoding( blob ) {
 function toggleRecording( e ) {
     if (e.classList.contains("recording")) {
         // stop recording
-        audioRecorder.stop();
         e.classList.remove("recording");
         audioRecorder.getBuffers( gotBuffers );
-        alert('Finished!');
     } else {
         // start recording
         if (!audioRecorder)
