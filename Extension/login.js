@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
       chrome.tabs.create({ url: register_url });
   });
   submitButton.addEventListener('click', function() {
+    submitButton.classList.add("signing_in");
     chrome.tabs.getSelected(null, function(tab) {
       var username = document.getElementById("un").value;
       // Replace with audio input:

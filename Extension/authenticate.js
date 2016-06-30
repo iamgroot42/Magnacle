@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
             	   $.ajax(
             	   {
                   	type: 'GET',
-                  	url: "http://127.0.0.1:3000/verify?verificationSecret="+ver_sec+"&audioUrl="+link,
+                  	url: "http://127.0.0.1:3000/verify?verificationSecret="+ver_sec+"&audioUrl="+link+"&at="+token,
              	    	success: function(data)
              	    	{
                     		// data["key"] == "" implies auth failed; request to try again
