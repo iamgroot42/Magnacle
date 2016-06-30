@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
       var k = {};
       chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
         token = obj['KnurkdLoginToken'];
-        chrome.storage.sync.get('KnurkdLoginName', function (obj) {
+        chrome.storage.sync.get('KnurkdLoginUsername', function (obj) {
         	k["token"] = token.toString(); 
         	k["dropbox"] = link;
-        	k["name"] = ob['KnurkdLoginName'].toString();
+        	k["name"] = obj['KnurkdLoginUsername'].toString();
         	$.ajax(
         	{
           		type: 'POST',
