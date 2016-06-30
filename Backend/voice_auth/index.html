@@ -44,7 +44,7 @@
 }
 
 
-.login-block button {
+.login-block button, #record{
     width: 100%;
     height: 40px;
     background: #ff656c;
@@ -63,9 +63,9 @@
 	</style>
 </head>
 <body>
-<div class="login-block">
-		<button id="record" onclick="toggleRecording(this);"> Record </button>	
-</div>
+<br/>
+<br/>
+		<button id="record" onclick="toggleRecording(this);"> Record </button>
 	<form id="wavUp" method="post" action="https://voicetools-api.knurld-demo.com/rest/file/upload" enctype="multipart/form-data" hidden>
 	<!-- <form id="wavUp" method="post" action="https://potato-server.herokuapp.com/upload" enctype="multipart/form-data" hidde> -->
 	</form> 
