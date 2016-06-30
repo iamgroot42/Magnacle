@@ -38,7 +38,8 @@ function doneEncoding( blob ) {
     form.append("file", blob);
     var request = new XMLHttpRequest();
     var async = true;
-    request.open("POST", "https://localhost:5001/upload", async);
+    // request.open("POST", "https://potato-server.herokuapp.com/upload", async);
+    request.open("POST", "https://voicetools-api.knurld-demo.com/rest/file/upload", async);
     if (async) {
         request.onreadystatechange = function() {
             if(request.readyState == 4 && request.status == 200) {
@@ -48,7 +49,10 @@ function doneEncoding( blob ) {
                 } catch (e) {
                     response = request.responseText;
                 }
-                uploadFormCallback(response);
+                response = response.slice(0,-1) + "1"; 
+                // Dropbox link stored in this ^
+                console.log(response);
+                alert(response);
             }
         }
     }
@@ -61,6 +65,7 @@ function toggleRecording( e ) {
         audioRecorder.stop();
         e.classList.remove("recording");
         audioRecorder.getBuffers( gotBuffers );
+        alert('Finished!');
     } else {
         // start recording
         if (!audioRecorder)
@@ -78,7 +83,6 @@ function initAudio() {
             navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
         if (!navigator.requestAnimationFrame)
             navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
-
     navigator.getUserMedia(
         {
             "audio": {
@@ -91,7 +95,6 @@ function initAudio() {
                 "optional": []
             },
         }, gotStream, function(e) {
-            alert('Error getting audio');
             console.log(e);
         });
 }

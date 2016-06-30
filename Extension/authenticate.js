@@ -3,6 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
   chrome.storage.sync.get('KnurkdLoginUsername', function (obj) {
     document.getElementById("uname").innerHTML = obj['KnurkdLoginUsername'];
   });
+  // Define source of iframe dynamically
+  chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
+    token = obj['KnurkdLoginToken'];
+    var source = "http://localhost:8000/?token=" + token.toString();
+    var iframeButton = document.getElementById('eyeframe').src = source;
+  });
   var logoutButton = document.getElementById('logout');
   var authButton = document.getElementById('auth');
   logoutButton.addEventListener('click', function() {
