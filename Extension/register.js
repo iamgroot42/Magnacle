@@ -13,10 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
       k["audioUrl"] = link;
       $.ajax({
       type: 'GET',
-      url: "http://localhost:3000/register",
+      url: "https://voice4-byld.rhcloud.com/register",
     data: k,
     success: function(data) {
-      data = JSON.parse(data);
       if(data["at"]) chrome.storage.sync.set({'KnurkdLoginToken':data["at"],'KnurkdLoginUsername':k["username"]},function()
                 {
                     console.log("AT saved successfully");
@@ -29,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
   });
    // Set iFrame source for voice recording
-    var source = "http://localhost:3000/";
+    var source = "https://voice4-byld.rhcloud.com/";
     var iframeButton = document.getElementById('eyeframe').src = source;
 
 }, false);

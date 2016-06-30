@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
   registerButton.addEventListener('click', function() {
       location.href = "register.html";
-      chrome.tabs.create({ url: register_url });
   });
   submitButton.addEventListener('click', function() {
     submitButton.classList.add("signing_in");
@@ -22,16 +21,16 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       $.ajax({
         type: 'GET',
-        url: 'http://127.0.0.1:3000/getAT?' + getMessage(username,password),
-        success: function(text)
+        url: 'https://voice4-byld.rhcloud.com/getAT?' + getMessage(username,password),
+        success: function(tezt)
          {
-            if(text['at'])
+            if(tezt['at'])
             {
               // till Divam fixes this:
-              text = "ecd1003f382e5a3f544d2f1dcfef12e7";
+              text = tezt['at'];
               $.ajax({
                 type: 'GET',
-                url: "http://127.0.0.1:3000/getVerifyInstructions?at="+text.toString(),
+                url: "https://voice4-byld.rhcloud.com/getVerifyInstructions?at="+text.toString(),
                 success: function(data)
                 {
                   chrome.storage.sync.set({'KnurkdVerificationSecret':data["verificationSecret"]},function()
