@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return "username=" + username + "&password=" + password;
       }
   registerButton.addEventListener('click', function() {
-      var register_url = "https://github.com/";
+      location.href = "register.html";
       chrome.tabs.create({ url: register_url });
   });
   submitButton.addEventListener('click', function() {
@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
               // Store access key
               chrome.storage.sync.set({'KnurkdLoginToken': text}, function() {
                 chrome.storage.sync.set({'KnurkdLoginUsername': username}, function() {
-                  // Redirect to voice auth
                   // Get order of words to be spoken
                   var k = {};
                   k['at'] = text;
@@ -43,13 +42,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     {
                       data = JSON.parse(data);
                       chrome.storage.sync.set({'KnurkdVerificationSecret':data["verificationSecret"]},function()
-                      { 
-                          alert(JSON.stringify(data["words"]));
+                      {
+                          chrome.storage.sync.set({'KnurkdVerificationWords':data["words"]},function()
+                          { 
+                            alert(JSON.stringify(data["words"]));
+                            // Redirect to voice auth
+                            location.href = "authenticate.html";
+                          });
                       });
                     }
                     // failure: //Network error
                   });
-                  location.href = "authenticate.html";
                 });
               });
             }
