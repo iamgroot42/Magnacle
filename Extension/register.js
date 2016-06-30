@@ -12,15 +12,15 @@ document.addEventListener('DOMContentLoaded', function() {
       k["password"] = $("#pw").val();
       k["audioUrl"] = link;
       $.ajax({
-      type: 'GET',
-      url: "https://voice4-byld.rhcloud.com/register",
-    data: k,
-    success: function(data) {
-      if(data["at"]) chrome.storage.sync.set({'KnurkdLoginToken':data["at"],'KnurkdLoginUsername':k["username"]},function()
-                {
-                    console.log("AT saved successfully");
-                    location.href = 'home.html';
-                });
+        type: 'GET',
+        url: "https://voice4-byld.rhcloud.com/register",
+        data: k,
+        success: function(data) {
+          if(data["at"]) 
+          {
+            console.log("Registered!");
+              location.href = 'home.html';
+          }
       else {alert("Error in registration");location.href = 'home.html'}
     },
     error: function(data) {alert("Error in registration");location.href = 'home.html'}

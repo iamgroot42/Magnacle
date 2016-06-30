@@ -2,9 +2,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	chrome.storage.sync.get(null, function(items) {
     var allKeys = Object.keys(items);
     var usr = items["KnurkdLoginUsername"];
-    for (i=0;i<allKeys.length();i++)
+    for (i=0;i<allKeys.length;i++)
     {
-    	if(allKeys[i].startsWith(usr+"%KNURLD%")) $("#url").append("<tr><td class=\"tcell\" id=\""+allKeys[i]+"\">"+items[allKeys[i]]+"</td></tr>");
+    	if(allKeys[i].startsWith(usr+"%KNURLD%"))
+    		$("#url").append("<tr><td class=\"tcell\" id=\""+allKeys[i]+"\">"+allKeys[i].substr((usr+"%KNURLD%").length-1)+"</td></tr>");
     }
     });
 

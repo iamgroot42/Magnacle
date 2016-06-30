@@ -50,7 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
       chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
         var token = obj['KnurkdLoginToken'];
         var source = "https://voice4-byld.rhcloud.com/";
-        var iframeButton = document.getElementById('eyeframe').src = source;
+        var iframeButton = document.getElementById('eyeframe');
+        iframeButton.src = source;
       });
       var logoutButton = document.getElementById('logout');
       logoutButton.addEventListener('click', function() {
