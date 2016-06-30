@@ -23,8 +23,14 @@ document.addEventListener('DOMContentLoaded', function() {
          		data: JSON.stringify(k),
          		success: function(data)
          		{
-         			alert('Received');
             		data = JSON.parse(data);
+            		// data["key"] == "" implies auth failed; request to try again
+                if(!data["key"])
+                {
+                  alert("Voice auth failed! Try again");
+                  location.href = 'authenticate.html';
+                  return;
+                }
             		chrome.storage.sync.set({'KnurkdLoginKey':data["key"]},function()
             		{
               			console.log("Key saved successfully");
@@ -47,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var iframeButton = document.getElementById('eyeframe').src = source;
   });
   var logoutButton = document.getElementById('logout');
-  var authButton = document.getElementById('auth');
   logoutButton.addEventListener('click', function() {
     chrome.tabs.getSelected(null, function(tab) {
         chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
@@ -55,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
           chrome.storage.sync.remove('KnurkdLoginToken',function() {
             chrome.storage.sync.remove('KnurkdLoginUsername',function() {
               // Redirect to login page
-              alert('Logged out!');
+              console.log('Logged out!');
               location.href = "login.html";
             });
           });

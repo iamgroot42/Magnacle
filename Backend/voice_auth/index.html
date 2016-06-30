@@ -9,11 +9,28 @@
 	<style>
 	
 	/*#record { height: 15vh; }*/
+	#record.authenticating { 
+		background-color: #ff656c;
+		-webkit-animation-name: authpulse; 
+   		-webkit-animation-duration: 1.5s; 
+   		-webkit-animation-iteration-count: infinite; 
+	}
+
+	@-webkit-keyframes authpulse {
+    0%   {background-color:#ff656c; border: 1px solid #e15960;}
+    50%  {background-color:#cc00cc; border: 1px solid #cc00cc;}
+	}	
+
+	@-webkit-keyframes recordpulse {
+    0%   {background-color:#ff656c; border: 1px solid #e15960;}
+    50%  {background-color:#33cc33; border: 1px solid #33cc33;}
+	}
+
 	#record.recording { 
-		background: red;
-		background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%,white 75%,white 100%,#7db9e8 100%); 
-		background: -moz-radial-gradient(center, ellipse cover, #ff0000 0%,white 75%,white 100%,#7db9e8 100%); 
-		background: radial-gradient(center, ellipse cover, #ff0000 0%,white 75%,white 100%,#7db9e8 100%); 
+		background-color: #ff656c;
+		-webkit-animation-name: recordpulse; 
+   		-webkit-animation-duration: 1.5s; 
+   		-webkit-animation-iteration-count: infinite;
 	}
 	/*#save, #save img { height: 10vh; }*/
 	#save { opacity: 0.25;}

@@ -1,5 +1,6 @@
 from flask import Flask,make_response, request, current_app
 #from pymongo import MongoClient
+import json
 from datetime import timedelta
 from functools import update_wrapper
 
@@ -89,7 +90,8 @@ def upload():
 @app.route('/authenticate', methods=['GET', 'POST'])
 @crossdomain(origin='*')
 def authenticate():
-    return "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    return json.dumps({"key":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"})
+    # return json.dumps({"key":""})
 
 
 if __name__ == '__main__':

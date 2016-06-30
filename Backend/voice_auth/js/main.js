@@ -60,14 +60,19 @@ function doneEncoding( blob ) {
 }
 
 function toggleRecording( e ) {
+    var recordButton = document.getElementById('record');
     if (e.classList.contains("recording")) {
         // stop recording
         e.classList.remove("recording");
+        e.classList.add("authenticating");
+        recordButton.innerHTML = "AUthenticating..";
+        recordButton.disabled = true;
         audioRecorder.getBuffers( gotBuffers );
     } else {
         // start recording
         if (!audioRecorder)
             return;
+        recordButton.innerHTML = "Recording";
         e.classList.add("recording");
         audioRecorder.clear();
         audioRecorder.record();

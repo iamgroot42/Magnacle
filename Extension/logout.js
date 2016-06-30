@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.sync.remove('KnurkdLoginKey',function() {
               chrome.storage.sync.remove('KnurkdLoginUsername',function() {
                 // Redirect to login page
-                alert("Logged out!");
+                console.log("Logged out!");
                 location.href = "login.html";
               });
             });
