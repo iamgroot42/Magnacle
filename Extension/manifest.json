@@ -1,9 +1,8 @@
 {
   "manifest_version": 2,
-
-  "name": "Knurler",
+  "name": "Magnacle",
   "description": "The perfect voice-based password manager, powered by Knurld",
-  "version": "0.8",
+  "version": "1.0",
   "content_scripts": [{
       "matches": ["http://*/*", "https://*/*"],
       "js": ["jquery-3.0.0.min.js", "aes.js", "background.js"],
@@ -22,10 +21,10 @@
   },
   "permissions": [
    "activeTab","tabs","notifications","storage","webRequest",
-          "https://potato-server.herokuapp.com/stuff"
+          "https://voice4-byld.rhcloud.com/*"
    ],
   "externally_connectable" : {
-    "matches": [ "https://potato-server.herokuapp.com/stuff" ]
+    "matches": [ "https://voice4-byld.rhcloud.com/*" ]
   },
     "web_accessible_resources": [
     "icon.png"
