@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
             	   $.ajax(
             	   {
                   	type: 'GET',
-                    url: "http://localhost:3000/verify?at="+token+"&audioUrl="+link+"&verificationSecret="+ver_sec,
+                    url: "https://voice5-byld.rhcloud.com/verify?at="+token+"&audioUrl="+link+"&verificationSecret="+ver_sec,
              	    	success: function(data)
              	    	{
                         if((!data["key"]) ||  (!data["verified"]))
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                           // Used this, request another set of instructions,verifykey
                           // $.ajax({
                           //     type: 'GET',
-                          //     url: "http://localhost:3000/getVerifyInstructions?at="+token.toString(),
+                          //     url: "https://voice5-byld.rhcloud.com/getVerifyInstructions?at="+token.toString(),
                           //     success: function(data)
                           //     {
                           //       // alert(JSON.stringify(data));
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     		{
                           $.ajax({
                               type: 'GET',
-                              url: "http://localhost:3000/getVerifyInstructions?at="+token.toString(),
+                              url: "https://voice5-byld.rhcloud.com/getVerifyInstructions?at="+token.toString(),
                               success: function(data)
                               {
                                 // alert(JSON.stringify(data));
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Define source of iframe dynamically
       chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
         var token = obj['KnurkdLoginToken'];
-        var source = "http://localhost:3000/";
+        var source = "https://voice5-byld.rhcloud.com/";
         var iframeButton = document.getElementById('eyeframe');
         iframeButton.src = source;
       });
