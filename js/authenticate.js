@@ -26,6 +26,36 @@ document.addEventListener('DOMContentLoaded', function() {
                         if(!data["key"])
                         {
                           alert("Voice auth failed! Try again");
+                          // Used this, request another set of instructions,verifykey
+                          $.ajax({
+                              type: 'GET',
+                              url: "http://localhost:3000/getVerifyInstructions?at="+token.toString(),
+                              success: function(data)
+                              {
+                                // alert(JSON.stringify(data));
+                                if(data['verificationSecret'])
+                                {
+                                  chrome.storage.sync.set({'KnurkdVerificationSecret':data["verificationSecret"]},function()
+                                  {
+                                      chrome.storage.sync.set({'KnurkdVerificationWords':data["words"]},function()
+                                      {
+                                          // Redirect to 'logged in' page
+                                          location.href = 'logged_in.html';
+                                      });
+                                    });
+                                }
+                                else
+                                {
+                                  alert('Authentication problem! Please sign-in again');
+                                  // Delete access token, log in again
+                                  chrome.storage.sync.remove('KnurkdLoginToken',function() {
+                                    chrome.storage.sync.remove('KnurkdLoginKey',function() {
+                                      location.href = "login.html";
+                                    });
+                                  });
+                                }
+                              }
+                          });
                           location.href = 'authenticate.html';
                           return;
                         }
@@ -37,7 +67,8 @@ document.addEventListener('DOMContentLoaded', function() {
                               url: "http://localhost:3000/getVerifyInstructions?at="+token.toString(),
                               success: function(data)
                               {
-                                if(data['verified'])
+                                // alert(JSON.stringify(data));
+                                if(data['verificationSecret'])
                                 {
                                   chrome.storage.sync.set({'KnurkdVerificationSecret':data["verificationSecret"]},function()
                                   {
@@ -51,10 +82,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 }
                                 else
                                 {
-                                  alert('Authentication problem! Sign in again');
+                                  alert('Authentication problem! Please sign-in again');
                                   // Delete access token, log in again
                                   chrome.storage.sync.remove('KnurkdLoginToken',function() {
-                                    location.href = "login.html";
+                                    chrome.storage.sync.remove('KnurkdLoginKey',function() {
+                                      location.href = "login.html";
+                                    });
                                   });
                                 }
                               }
@@ -63,9 +96,13 @@ document.addEventListener('DOMContentLoaded', function() {
              	    	 },
                      error: function(data)
                      {
-                        alert("Voice auth failed! Try again");
-                        location.href = 'authenticate.html';
-                        return;
+                        alert('Authentication problem! Please sign-in again');
+                          // Delete access token, log in again
+                          chrome.storage.sync.remove('KnurkdLoginToken',function() {
+                              chrome.storage.sync.remove('KnurkdLoginKey',function() {
+                              location.href = "login.html";
+                            });
+                        });
                      }
             	   });
                });
