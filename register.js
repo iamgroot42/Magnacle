@@ -11,15 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
       k["username"] = $("#un").val();
       k["password"] = $("#pw").val();
       k["audioUrl"] = link;
+      console.log('Process started');
       $.ajax({
         type: 'GET',
-        url: "https://voice5-byld.rhcloud.com/register",
-        data: k,
+        url: "http://localhost:3000/register?username="+k["username"]+"&password="+k["password"]
+        +"&audioUrl="+k["audioUrl"],
         success: function(data) {
-          alert(JSON.stringify(data));
           if(data["at"]) 
           {
-            console.log("Registered!");
+              alert("Regsitered! You may sign in now");
               location.href = 'home.html';
           }
       else {alert("Error in registration");location.href = 'home.html'}
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
   });
    // Set iFrame source for voice recording
-    var source = "https://voice5-byld.rhcloud.com/";
+    var source = "http://localhost:3000/";
     var iframeButton = document.getElementById('eyeframe').src = source;
 
 }, false);

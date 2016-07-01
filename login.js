@@ -21,16 +21,15 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       $.ajax({
         type: 'GET',
-        url: 'https://voice5-byld.rhcloud.com/getAT?' + getMessage(username,password),
+        url: 'http://localhost:3000/getAT?' + getMessage(username,password),
         success: function(tezt)
          {
             if(tezt['at'])
             {
-              // till Divam fixes this:
               text = tezt['at'];
               $.ajax({
                 type: 'GET',
-                url: "https://voice5-byld.rhcloud.com/getVerifyInstructions?at="+text.toString(),
+                url: "http://localhost:3000/getVerifyInstructions?at="+text.toString(),
                 success: function(data)
                 {
                   chrome.storage.sync.set({'KnurkdVerificationSecret':data["verificationSecret"]},function()
@@ -42,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
                           chrome.storage.sync.set({'KnurkdLoginUsername': username}, function() {
                             // Redirect to voice auth
                             submitButton.classList.remove("signing_in");
+                            alert('Signed in!');
                             location.href = "authenticate.html";
                           });
                         });
@@ -53,12 +53,16 @@ document.addEventListener('DOMContentLoaded', function() {
             else
             {
                 // Invalid login
-                alert('Not authenticated!');
+                alert('Invalid credentials! Try again');
                 submitButton.classList.remove("signing_in");
                 return;
             }
          },
-         error: function(data) {alert("Invalid credentials! Try again");location.href = 'login.html'}
+         error: function(data) {
+          alert("Error signing in. Please try again.");
+          submitButton.classList.remove("signing_in");
+          location.href = 'login.html'
+        }
       });
     });
   }, false);
