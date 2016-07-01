@@ -2,22 +2,22 @@
   "manifest_version": 2,
   "name": "Magnacle",
   "description": "The perfect voice-based password manager, powered by Knurld",
-  "version": "1.0",
+  "version": "1.1",
   "content_scripts": [{
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["jquery-3.0.0.min.js", "aes.js", "background.js"],
+      "js": ["js/jquery-3.0.0.min.js", "js/aes.js", "js/background.js"],
       "run_at": "document_start"
     }],
   "browser_action": {
-   "default_icon": "icon128.png",
-   "default_popup": "home.html"
+   "default_icon": "icons/icon128.png",
+   "default_popup": "html/home.html"
   },
-  "icons": { "16": "icon16.png",
-           "48": "icon48.png",
-          "128": "icon128.png" 
+  "icons": { "16": "icons/icon16.png",
+           "48": "icons/icon48.png",
+          "128": "icons/icon128.png" 
     },
    "background": {
-    "scripts": ["clear.js"]
+    "scripts": ["js/clear.js"]
   },
   "permissions": [
    "activeTab","tabs","notifications","storage","webRequest",
