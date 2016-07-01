@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         url: "https://voice5-byld.rhcloud.com/register",
         data: k,
         success: function(data) {
+          alert(JSON.stringify(data));
           if(data["at"]) 
           {
             console.log("Registered!");
