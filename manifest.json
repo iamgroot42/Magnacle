@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Magnacle",
   "description": "The perfect voice-based password manager, powered by Knurld",
-  "version": "1.1",
+  "version": "1.2",
   "content_scripts": [{
       "matches": ["http://*/*", "https://*/*"],
       "js": ["js/jquery-3.0.0.min.js", "js/aes.js", "js/background.js"],
