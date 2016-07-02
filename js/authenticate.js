@@ -1,5 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
   chrome.storage.sync.get('KnurkdVerificationWords', function (obj) {
+  	  if(!obj['KnurkdVerificationWords'])
+  	  {
+  	  	// Verification words not found for some reason; log-out
+  	  	alert('Technical error! Please sign-in again');
+        // Delete access token, log in again
+        chrome.storage.sync.remove('KnurkdLoginToken',function() {
+          	location.href = "login.html";
+        });
+  	  }
       var three_words = obj['KnurkdVerificationWords'];
       var wordesTag = document.getElementById('wordes');
       var insider = "For voice authentication, say the words \"";
@@ -20,54 +29,24 @@ document.addEventListener('DOMContentLoaded', function() {
             	   $.ajax(
             	   {
                   	type: 'GET',
-                    url: "https://voice5-byld.rhcloud.com/verify?at="+token+"&audioUrl="+link+"&verificationSecret="+ver_sec,
+                    url: "http://localhost:8080/verify?at="+token+"&audioUrl="+link+"&verificationSecret="+ver_sec,
              	    	success: function(data)
              	    	{
-                        if((!data["key"]) ||  (!data["verified"]))
+                        if(!data["verified"])
                         {
                           alert('Authentication problem! Please sign-in again');
                           // Delete access token, log in again
                           chrome.storage.sync.remove('KnurkdLoginToken',function() {
                             location.href = "login.html";
+                            // return;
                           });
-                          // Used this, request another set of instructions,verifykey
-                          // $.ajax({
-                          //     type: 'GET',
-                          //     url: "https://voice5-byld.rhcloud.com/getVerifyInstructions?at="+token.toString(),
-                          //     success: function(data)
-                          //     {
-                          //       // alert(JSON.stringify(data));
-                          //       if(data['verificationSecret'])
-                          //       {
-                          //         chrome.storage.sync.set({'KnurkdVerificationSecret':data["verificationSecret"]},function()
-                          //         {
-                          //             chrome.storage.sync.set({'KnurkdVerificationWords':data["words"]},function()
-                          //             {
-                          //                 // Redirect to 'logged in' page
-                          //                 location.href = 'logged_in.html';
-                          //             });
-                          //           });
-                          //       }
-                          //       else
-                          //       {
-                          //         alert('Authentication problem! Please sign-in again');
-                          //         // Delete access token, log in again
-                          //         chrome.storage.sync.remove('KnurkdLoginToken',function() {
-                          //           chrome.storage.sync.remove('KnurkdLoginKey',function() {
-                          //             location.href = "login.html";
-                          //           });
-                          //         });
-                          //       }
-                          //     }
-                          //   });
-                          return;
                         }
                         // Get instructions for next time
                     		chrome.storage.sync.set({'KnurkdLoginKey':data["key"]},function()
                     		{
                           $.ajax({
                               type: 'GET',
-                              url: "https://voice5-byld.rhcloud.com/getVerifyInstructions?at="+token.toString(),
+                              url: "http://localhost:8080/getVerifyInstructions?at="+token.toString(),
                               success: function(data)
                               {
                                 // alert(JSON.stringify(data));
@@ -80,15 +59,42 @@ document.addEventListener('DOMContentLoaded', function() {
                                           // Redirect to 'logged in' page
                                           alert("Voice authenticated!");
                                           location.href = 'logged_in.html';
+                                          // return;
                                       });
                                     });
                                 }
                                 else
                                 {
-                                  alert('Authentication problem! Please sign-in again');
-                                  // Delete access token, log in again
-                                  chrome.storage.sync.remove('KnurkdLoginToken',function() {
-                                    location.href = "login.html";
+                                  alert('Voice authentication error! Please try again');
+                                  // Used this, request another set of instructions,verifykey
+                                  $.ajax({
+                                      type: 'GET',
+                                      url: "http://localhost:8080/getVerifyInstructions?at="+token.toString(),
+                                      success: function(data)
+                                      {
+                                        // alert(JSON.stringify(data));
+                                        if(data['verificationSecret'])
+                                        {
+                                          chrome.storage.sync.set({'KnurkdVerificationSecret':data["verificationSecret"]},function()
+                                          {
+                                              chrome.storage.sync.set({'KnurkdVerificationWords':data["words"]},function()
+                                              {
+                                                  // Redirect to 'logged in' page
+                                                  location.href = 'authenticate.html';
+                                                  // return;
+                                              });
+                                            });
+                                        }
+                                        else
+                                        {
+                                          alert('Authentication problem! Please sign-in again');
+                                          // Delete access token, log in again
+                                          chrome.storage.sync.remove('KnurkdLoginToken',function() {
+                                              location.href = "login.html";
+                                              // return;
+                                          });
+                                        }
+                                      }
                                   });
                                 }
                               }
@@ -101,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Delete access token, log in again
                         chrome.storage.sync.remove('KnurkdLoginToken',function() {
                             location.href = "login.html";
+                            // return;
                         });
                      }
             	   });
@@ -115,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Define source of iframe dynamically
       chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
         var token = obj['KnurkdLoginToken'];
-        var source = "https://voice5-byld.rhcloud.com/";
+        var source = "http://localhost:8080/";
         var iframeButton = document.getElementById('eyeframe');
         iframeButton.src = source;
       });
@@ -129,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   // Redirect to login page
                   console.log('Logged out!');
                   location.href = "login.html";
+                  return;
                 });
               });
             });

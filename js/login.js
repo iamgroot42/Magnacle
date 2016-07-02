@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       $.ajax({
         type: 'GET',
-        url: 'https://voice5-byld.rhcloud.com/getAT?' + getMessage(username,password),
+        url: 'http://localhost:8080/getAT?' + getMessage(username,password),
         success: function(tezt)
          {
             if(tezt['at'])
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
               text = tezt['at'];
               $.ajax({
                 type: 'GET',
-                url: "https://voice5-byld.rhcloud.com/getVerifyInstructions?at="+text.toString(),
+                url: "http://localhost:8080/getVerifyInstructions?at="+text.toString(),
                 success: function(data)
                 {
                   chrome.storage.sync.set({'KnurkdVerificationSecret':data["verificationSecret"]},function()
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
          },
          error: function(data) {
-          alert("Error signing in. Please try again.");
+          alert('Invalid credentials! Try again');
           submitButton.classList.remove("signing_in");
           location.href = 'login.html'
         }
