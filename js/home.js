@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.sync.get('KnurkdLoginToken', function(obj) {
         if (obj['KnurkdLoginToken']) {
-            $.get('http://localhost:8080/checkAT', {
+            $.get('https://voice6-byld.rhcloud.com/checkAT', {
                 'at': obj['KnurkdLoginToken']
             }, function(data) {
                 if (data["success"]) {

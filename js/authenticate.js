@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
             	   $.ajax(
             	   {
                   	type: 'GET',
-                    url: "http://localhost:8080/verify?at="+token+"&audioUrl="+link+"&verificationSecret="+ver_sec,
+                    url: "https://voice6-byld.rhcloud.com/verify?at="+token+"&audioUrl="+link+"&verificationSecret="+ver_sec,
              	    	success: function(data)
              	    	{
                         if(!data["verified"])
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     		{
                           $.ajax({
                               type: 'GET',
-                              url: "http://localhost:8080/getVerifyInstructions?at="+token.toString(),
+                              url: "https://voice6-byld.rhcloud.com/getVerifyInstructions?at="+token.toString(),
                               success: function(data)
                               {
                                 // alert(JSON.stringify(data));
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                   // Used this, request another set of instructions,verifykey
                                   $.ajax({
                                       type: 'GET',
-                                      url: "http://localhost:8080/getVerifyInstructions?at="+token.toString(),
+                                      url: "https://voice6-byld.rhcloud.com/getVerifyInstructions?at="+token.toString(),
                                       success: function(data)
                                       {
                                         // alert(JSON.stringify(data));
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Define source of iframe dynamically
       chrome.storage.sync.get('KnurkdLoginToken', function (obj) {
         var token = obj['KnurkdLoginToken'];
-        var source = "http://localhost:8080/";
+        var source = "https://voice6-byld.rhcloud.com/";
         var iframeButton = document.getElementById('eyeframe');
         iframeButton.src = source;
       });

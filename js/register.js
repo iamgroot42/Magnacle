@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Process started');
       $.ajax({
         type: 'GET',
-        url: "http://localhost:8080/register?username="+k["username"]+"&password="+k["password"]
+        url: "https://voice6-byld.rhcloud.com/register?username="+k["username"]+"&password="+k["password"]
         +"&audioUrl="+k["audioUrl"],
         success: function(data) {
           if(data["at"]) 
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
   });
    // Set iFrame source for voice recording
-    var source = "http://localhost:8080/";
+    var source = "https://voice6-byld.rhcloud.com/";
     var iframeButton = document.getElementById('eyeframe').src = source;
 
 }, false);
